@@ -1,6 +1,5 @@
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="./d3-tip.js"></script>
-<script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 var margin = {top: 50, right: 50, bottom: 30, left: 50},
     width = 460 - margin.left - margin.right,
@@ -424,5 +423,3 @@ setTimeout(renderGraph, 20);
 
 // Use a timeout to allow the rest of the page to load first.
 
-
-</script>
