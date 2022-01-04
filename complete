@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+<style>
+svg {
+  font: 10px sans-serif;
+}
+.x.axis .domain {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.x.axis path {
+  fill: none;
+  stroke: #000;
+  opacity: .2;
+  shape-rendering: crispEdges;
+}
+body {
+    font-family: 'National','Tiempos', Arial, Helvetica, sans-serif;
+    margin: 0;
+    width:100%;
+    padding: 0;
+    color: #333;
+    background-color: #fff;
+}
+/*#form {
+  text-align:center;
+}
+#radio-left {
+  border-top-left-radius:24px;
+  border-bottom-left-radius:24px;
+}
+#radio-right {
+  border-top-right-radius:24px;
+  border-bottom-right-radius:24px;
+}
+#radios {
+  font-family: 'National','Arial', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  left: 280px;
+  margin: 0 auto;
+  padding:15px 0 0px 0;
+  text-transform: uppercase;
+  top: 535px;
+  }
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+input:checked+.radio{
+  background: #474747;
+  border: 1px solid black;
+}
+.radio {
+  background-color: grey;
+  border: 1px solid white;
+  color:white;
+  display:inline-block;
+  font-weight:300;
+  font-family: 'National','Arial', sans-serif;
+  margin: 0 auto;
+  padding: 3px 10px 3px 8px;
+  text-align:center;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  width:100px;
+}*/
+.container {
+  min-width:420px;
+  max-width:520px;
+}
+.constrict {
+  width:100%;
+}
+section {
+  width:100%;
+}
+
+section.main-graphics{
+    width:100%;
+    margin:0;
+    padding:0px 0 0px 0;
+}
+
+div.masthead{
+    position:relative;
+    margin-top:0px;
+}
+
+/*headline*/
+.header{
+    font-family: 'Noto Sans';
+    font-size: 40px;
+    margin-bottom:0;
+    text-align: left;
+    line-height: 40px;
+    margin-top: 20px;
+    padding:0 10px;
+}
+line{
+    stroke:#102039;
+}
+.text-tab{
+    font-family: 'Noto Sans';
+}
+
+/*footer*/
+#sourceline {
+   font-family:'Noto Sans';
+   font-size: 8px;
+   margin-top: 20px;
+   min-height: 100px!important;
+}
+
+.footnote{
+    color: black;
+    margin:0;
+}
+
+.source{
+    color: black;
+    margin:0;
+}
+
+.credit{
+    color: #3D3D3D;
+    float: left!important;
+    text-align: left!important;
+}
+
+.neutral {
+  fill: grey !important;
+  pointer-events: none;
+}
+
+.axis {
+  font-family: 'Noto Sans';
+  font-size: 10px !important;
+  font-weight:200;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #999999;
+  shape-rendering: crispEdges;
+}
+
+p {
+  margin-left:10px;
+}
+#chart {
+  width: 100%;
+  height:530px;
+  position: relative;
+}
+
+.invisible {
+  z-index:3;
+  fill:none;
+  pointer-events: fill;
+}
+.bar {
+  pointer-events: none;
+}
+.bar-district {
+  pointer-events: none;
+}
+.d3-tip { 
+    display: block;
+    z-index: 10;
+    max-width: 350px;
+    width:300px;
+    opacity:1;
+    color: #333333;
+    background-color: white;
+    border: 1px solid black!important;
+    position: absolute;     
+    text-align: left;    
+    padding: 2px 5px 5px 5px;
+    font-size: 10px; 
+    font-family:Tiempos;        
+    pointer-events: none;  
+    line-height: 10px !important;   
+}
+.d3-tip p {
+  font-family:National;
+  font-size:14px;
+  margin-bottom:7px;
+  padding:0px;
+  text-align:center !important;
+}
+.d3-tip h3 {
+  font-family:Tiempos;
+  font-weight:300;
+  font-size:12px;
+  margin:0px;
+  padding:0px;
+  text-align:center !important;
+}
+
+span{
+  font-family:PublicoTextBold;   
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  text-align: center;
+}
+
+.d3-tip.n:after {
+  margin: 1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.content-rail {
+  width:100%;
+  float:left;
+  position: relative;
+  min-height: 1px;
+  margin-left:10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  box-sizing: border-box;
+}
+/* Graphic Flag */
+.flag{
+color:black;
+background-color:#ffcf31;
+font-family:'National';
+font-size: 16px;
+font-weight:100;
+height:30px;
+padding:4px 10px 0px 5px;
+display:flex;
+justify-content: space-between;
+width:100%;
+}
+.flag div { 
+padding:4px 20px 0 0; }
+
+.flag-logo {
+  min-width:200px;
+  opacity: .7;
+  background: url("assets/logo.png");
+  background-repeat: no-repeat;
+  background-size: 80%;
+}
+/* Header */
+.hed{
+font-family: 'Noto Sans';
+font-size: 32px;
+font-weight:700;
+line-height: 40px;
+margin: 5px 0px 2px 40px!important;
+position: relative;
+text-align: left;
+}
+
+/* Description */
+.dek{
+font-family: 'Tiempos';
+font-size:14px;
+text-align: left;
+margin-top: 5px!important;
+display: inline-block;
+line-height: 25px;
+margin-left: 30px;
+padding:0px 10px;
+margin-bottom: 16px!important;
+width:95%;
+}
+/* Chart or visualization */
+#viz{
+width:100%;
+height:100%;
+padding:auto;
+margin:auto;
+}
+.legend {
+font-family:'National';
+font-size:12px;
+}
+
+/* Footer */
+#sourceline {
+font-family:'Tiempos';
+font-size: 12px;
+margin-top: 0px;
+margin-left:10px;
+min-height: 100px!important;
+}
+.label {
+font-family:'National';
+font-size:12px;
+font-weight:700;
+}
+.footer{
+border-top:2px solid black;
+color: black;
+font-family:'Tiempos';
+font-size: 10px;
+margin:0 10px;
+text-align:right;
+width:90%;
+}
+.axis text {
+font-weight:300;
+font-family:'National';
+text-transform:uppercase;
+}
+.source{
+font-style:italic;
+}
+.credit{
+font-style:italic;
+}
+text {
+pointer-events: none;
+}
+
+.axis {
+  font-family: 'National','Arial',sans-serif;
+  text-align: center;
+}
+.gridline {
+  opacity:.2;
+}
+
+.tick {
+  font-family: Noto Sans;
+}
+
+</style>
+<body>
+    <div class="main-content">
+  <div class="total">
+      <div class="constrict">
+        <section class="content main-graphics">
+            </div>
+              <div class="hed">How has the housing market changed in SC since Nov. 2020?</div>
+              <div class="dek">Data from South Carolina Realtors Annual Report, reflecting data Nov. 2020 - Nov. 2021 <hr> Hover over dots to see how different counties compare</div>
+            </section>
+          </div></div></div>
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="./d3-tip.js"></script>
+<script>
+
+var margin = {top: 50, right: 50, bottom: 30, left: 50},
+    width = 460 - margin.left - margin.right,
+    height = 120 - margin.top - margin.bottom,
+    // padding between nodes
+    padding = 1,
+    maxRadius = 1000,
+    numberOfNodes = 50;
+
+var colorize = d3.scale.linear().domain([0,50,100])
+  .range(["#5169b8", "#244DE4","purple"])
+
+// Create random node data.
+// var dater = d3.range(numberOfNodes).map(function() {
+//   var value = Math.floor(Math.random() * 50) / 10,
+//       size = Math.floor( Math.sqrt((value + 1) / numberOfNodes * -Math.log(Math.random())) * maxRadius * 10 ),
+//       datum = {value: value, size: size};
+//   return datum;
+// });
+
+
+
+
+
+var x = d3.scale.linear()
+  .domain( [0, 100] )
+  .range( [margin.left, width + margin.right ] );
+
+d3.csv("https://gist.githubusercontent.com/lauraantunez024/8d22fccdb23c8f8fb1fcfb5ad9ec654a/raw/8350ddf30ada2f12e4573ccbf4cebf4abe043476/data.csv", function(error, data){
+
+// Map the basic node data to d3-friendly format.
+var nodes = data.map(function(node, index) {
+  return {
+    label: node.county,
+    class: node.class,
+    fig: node.dataPrice,
+    idealradius: 700 / 100,
+    radius: 0,
+    // Give each node a random color.
+    color: '#ff7f0e',
+    // Set the node's gravitational centerpoint.
+    idealcx: x(+node.dataPrice),
+    idealcy: height,
+    x: x(+node.dataPrice),
+    // Add some randomization to the placement;
+    // nodes stacked on the same point can produce NaN errors.
+    y: height / .5 + Math.random()
+  };
+});
+
+var force = d3.layout.force()
+  .nodes(nodes)
+  .size([width, height])
+  .gravity(0)
+  .charge(0)
+  .on("tick", tick)
+  .start();
+
+var xAxis = d3.svg.axis()
+  .scale(x);
+
+var svg = d3.select("body").append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom);
+
+var title = svg.append("text")
+  .classed("title", true)
+  .attr("x", 42)
+  .attr("y", 12)
+  .style("text-anchor", "start")
+  .attr("font-family", "Noto Sans")
+      .attr("font-size", 16)
+  .text("How much more expensive are homes, villas and condos?");
+
+var tipText = svg.append("text")
+      .classed("tip-text", true)
+      .attr("x", width/2 + 40 )
+      .attr("y", 50)
+      .attr("dy", "1.35em")
+      .attr("dx", ".45em")
+      .style("text-anchor", "middle")
+      .style("fill", "black")
+      .style("opacity", "1")
+      .attr('transform', function(d) {
+        return 'translate(0, 0)'
+      })
+      .attr("font-family", "Noto Sans")
+      .attr("font-size", 24)
+      .text("");
+
+var loading = svg.append("text")
+  .attr("x", ( width + margin.left + margin.right ) / 2)
+  .attr("y", ( height + margin.top + margin.bottom ) / 2)
+  .attr("dy", ".35em")
+  .style("text-anchor", "middle")
+  .text("Simulating. One moment please…");
+
+/**
+ * On a tick, apply custom gravity, collision detection, and node placement.
+ */
+function tick(e) {
+  for ( i = 0; i < nodes.length; i++ ) {
+    var node = nodes[i];
+    /*
+     * Animate the radius via the tick.
+     *
+     * Typically this would be performed as a transition on the SVG element itself,
+     * but since this is a static force layout, we must perform it on the node.
+     */
+    node.radius = node.idealradius - node.idealradius * e.alpha * 10;
+    node = gravity(.2 * e.alpha)(node);
+    node = collide(.5)(node);
+    node.cx = node.x;
+    node.cy = node.y;
+  }
+}
+
+/**
+ * On a tick, move the node towards its desired position,
+ * with a preference for accuracy of the node's x-axis placement
+ * over smoothness of the clustering, which would produce inaccurate data presentation.
+ */
+function gravity(alpha) {
+  return function(d) {
+    d.y += (d.idealcy - d.y) * alpha;
+    d.x += (d.idealcx - d.x) * alpha * 3;
+    return d;
+  };
+}
+
+/**
+ * On a tick, resolve collisions between nodes.
+ */
+function collide(alpha) {
+  var quadtree = d3.geom.quadtree(nodes);
+  return function(d) {
+    var r = d.radius + maxRadius + padding,
+        nx1 = d.x - r,
+        nx2 = d.x + r,
+        ny1 = d.y - r,
+        ny2 = d.y + r;
+    quadtree.visit(function(quad, x1, y1, x2, y2) {
+      if (quad.point && (quad.point !== d)) {
+        var x = d.x - quad.point.x,
+            y = d.y - quad.point.y,
+            l = Math.sqrt(x * x + y * y),
+            r = d.radius + quad.point.radius + padding;
+        if (l < r) {
+          l = (l - r) / l * alpha;
+          d.x -= x *= l;
+          d.y -= y *= l;
+          quad.point.x += x;
+          quad.point.y += y;
+        }
+      }
+      return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+    });
+    return d;
+  };
+}
+
+/**
+ * Run the force layout to compute where each node should be placed,
+ * then replace the loading text with the graph.
+ */
+function renderGraph() {
+  // Run the layout a fixed number of times.
+  // The ideal number of times scales with graph complexity.
+  // Of course, don't run too long—you'll hang the page!
+  force.start();
+  for (var i = 100; i > 0; --i) force.tick();
+  force.stop();
+
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + ( height )  + ")")
+    .call(xAxis.ticks(1).tickFormat((d)=>{
+      return d+ "%"
+    }).tickSize(0));
+
+
+  var circle = svg.selectAll("circle")
+    .data(nodes)
+  .enter().append("circle").attr("class",(d)=>{ return d.class.toLowerCase() })
+    .style("fill", d => colorize(d.fig))
+    .attr("cx", function(d) { return d.x} )
+    .attr("cy", function(d) { return d.y} )
+    .attr("r", function(d) { return d.radius} )
+    .attr("opacity", .7)
+    .on('mouseover', function(e) {
+      var selecta = "." + e.class.toLowerCase();
+      d3.selectAll("circle")
+        .transition()
+        .duration(100)
+        .attr("opacity", .2)
+
+      d3.selectAll(selecta)
+        .transition()
+        .duration(100)
+        .attr("opacity", 1)
+      tipText
+          .text(()=>{
+            return e.label
+          })
+      tipText
+        .transition()
+        .duration(100)
+        .style("opacity", .6)
+    })
+          .on('mouseout', function(e) {
+              d3.selectAll("circle")
+                .transition()
+                .duration(100)
+                .attr("opacity", .7)      
+      tipText
+        .transition()
+        .duration(100)
+        .style("opacity", 0)
+    });
+
+  loading.remove();
+}
+setTimeout(renderGraph, 10);
+});
+
+d3.csv("https://gist.githubusercontent.com/lauraantunez024/8d22fccdb23c8f8fb1fcfb5ad9ec654a/raw/8350ddf30ada2f12e4573ccbf4cebf4abe043476/data.csv", function(error, data){
+
+// Map the basic node data to d3-friendly format.
+var nodes = data.map(function(node, index) {
+  return {
+    label: node.county,
+    class: node.class,
+    fig: node.data,
+    idealradius: 700 / 100,
+    radius: 0,
+    // Give each node a random color.
+    color: '#ff7f0e',
+    // Set the node's gravitational centerpoint.
+    idealcx: x(+node.data),
+    idealcy: height,
+    x: x(+node.data),
+    // Add some randomization to the placement;
+    // nodes stacked on the same point can produce NaN errors.
+    y: height / 2 + Math.random()
+  };
+});
+
+var force = d3.layout.force()
+  .nodes(nodes)
+  .size([width, height])
+  .gravity(0)
+  .charge(0)
+  .on("tick", tick)
+  .start();
+
+var xAxis = d3.svg.axis()
+  .scale(x);
+
+var svg = d3.select("body").append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom);
+var tipText = svg.append("text")
+      .classed("tip-text", true)
+      .attr("x", width/2 + 40 )
+      .attr("y", 50)
+      .attr("dy", "1.35em")
+      .attr("dx", ".45em")
+      .style("text-anchor", "middle")
+      .style("fill", "black")
+      .style("opacity", "1")
+      .attr('transform', function(d) {
+        return 'translate(0, 0)'
+      })
+      .attr("font-family", "Noto Sans")
+      .attr("font-size", 24)
+      .text("");
+var title = svg.append("text")
+  .classed("title", true)
+  .attr("x", 42)
+  .attr("y", 12)
+  .style("text-anchor", "start")
+  .attr("font-family", "Noto Sans")
+      .attr("font-size", 16)
+  .text("How much faster are homes selling out?");
+
+var loading = svg.append("text")
+  .attr("x", ( width + margin.left + margin.right ) / 2)
+  .attr("y", ( height + margin.top + margin.bottom ) / 2)
+  .attr("dy", ".35em")
+  .style("text-anchor", "middle")
+  .text("Simulating. One moment please…");
+
+/**
+ * On a tick, apply custom gravity, collision detection, and node placement.
+ */
+function tick(e) {
+  for ( i = 0; i < nodes.length; i++ ) {
+    var node = nodes[i];
+    /*
+     * Animate the radius via the tick.
+     *
+     * Typically this would be performed as a transition on the SVG element itself,
+     * but since this is a static force layout, we must perform it on the node.
+     */
+    node.radius = node.idealradius - node.idealradius * e.alpha * 10;
+    node = gravity(.2 * e.alpha)(node);
+    node = collide(.5)(node);
+    node.cx = node.x;
+    node.cy = node.y;
+  }
+}
+
+/**
+ * On a tick, move the node towards its desired position,
+ * with a preference for accuracy of the node's x-axis placement
+ * over smoothness of the clustering, which would produce inaccurate data presentation.
+ */
+function gravity(alpha) {
+  return function(d) {
+    d.y += (d.idealcy - d.y) * alpha;
+    d.x += (d.idealcx - d.x) * alpha * 3;
+    return d;
+  };
+}
+
+/**
+ * On a tick, resolve collisions between nodes.
+ */
+function collide(alpha) {
+  var quadtree = d3.geom.quadtree(nodes);
+  return function(d) {
+    var r = d.radius + maxRadius + padding,
+        nx1 = d.x - r,
+        nx2 = d.x + r,
+        ny1 = d.y - r,
+        ny2 = d.y + r;
+    quadtree.visit(function(quad, x1, y1, x2, y2) {
+      if (quad.point && (quad.point !== d)) {
+        var x = d.x - quad.point.x,
+            y = d.y - quad.point.y,
+            l = Math.sqrt(x * x + y * y),
+            r = d.radius + quad.point.radius + padding;
+        if (l < r) {
+          l = (l - r) / l * alpha;
+          d.x -= x *= l;
+          d.y -= y *= l;
+          quad.point.x += x;
+          quad.point.y += y;
+        }
+      }
+      return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+    });
+    return d;
+  };
+}
+
+/**
+ * Run the force layout to compute where each node should be placed,
+ * then replace the loading text with the graph.
+ */
+function renderGraph() {
+  // Run the layout a fixed number of times.
+  // The ideal number of times scales with graph complexity.
+  // Of course, don't run too long—you'll hang the page!
+  force.start();
+  for (var i = 100; i > 0; --i) force.tick();
+  force.stop();
+
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + ( height )  + ")")
+    .call(xAxis.ticks(1).tickFormat((d)=>{
+      return d+ "%"
+    }).tickSize(0));
+
+  var circle = svg.selectAll("circle")
+    .data(nodes)
+  .enter().append("circle").attr("class",(d)=>{ return d.class.toLowerCase() })
+    .style("fill", d => colorize(d.fig))
+    .attr("cx", function(d) { return d.x} )
+    .attr("cy", function(d) { return d.y} )
+    .attr("r", function(d) { return d.radius} )
+    .attr("opacity", .7)
+    .on('mouseover', function(e) {
+      var selecta = "." + e.class.toLowerCase();
+      d3.selectAll("circle")
+        .transition()
+        .duration(100)
+        .attr("opacity", .2)
+
+      d3.selectAll(selecta)
+        .transition()
+        .duration(100)
+        .attr("opacity", 1)
+      tipText
+          .text(()=>{
+            return e.label
+          })
+      tipText
+        .transition()
+        .duration(100)
+        .style("opacity", .6)
+    })
+          .on('mouseout', function(e) {
+              d3.selectAll("circle")
+                .transition()
+                .duration(100)
+                .attr("opacity", .7)
+
+      tipText
+        .transition()
+        .duration(100)
+        .style("opacity", 0)
+    });
+
+  loading.remove();
+}
+setTimeout(renderGraph, 20);
+});
+
+
+// Use a timeout to allow the rest of the page to load first.
+
+
+</script>
