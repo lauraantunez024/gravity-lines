@@ -1,45 +1,10 @@
 @charset "UTF-8";
 /* CSS Document */
 
-    @font-face {
-      font-family: 'National';
-      src: url('fonts/National-Light.otf');
-      font-weight: 200;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'National';
-      src: url('fonts/National-Thin.otf');
-      font-weight: 100;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'National';
-      src: url('fonts/National-Regular.otf');
-      font-weight: 300;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'National';
-      src: url('fonts/National-Black.otf');
-      font-weight: 900;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'National';
-      src: url('fonts/National-Bold.otf');
-      font-weight: 700;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Tiempos';
-      src: url('fonts/TiemposText-Regular.woff');
-      font-weight: 300;
-      font-style: normal;
-    }
+   
 /*body*/
 body {
-    font-family: 'National','Tiempos', Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     width:100%;
     padding: 0;
@@ -206,7 +171,7 @@ p {
     text-align: left;    
     padding: 2px 5px 5px 5px;
     font-size: 10px; 
-    font-family:Tiempos;        
+    font-family:Arial;        
     pointer-events: none;  
     line-height: 10px !important;   
 }
@@ -218,7 +183,7 @@ p {
   text-align:center !important;
 }
 .d3-tip h3 {
-  font-family:Tiempos;
+  font-family:Arial;
   font-weight:300;
   font-size:12px;
   margin:0px;
@@ -293,7 +258,7 @@ text-align: left;
 
 /* Description */
 .dek{
-font-family: 'Tiempos';
+font-family: 'Arial';
 font-size:14px;
 text-align: left;
 margin-top: 5px!important;
@@ -318,7 +283,7 @@ font-size:12px;
 
 /* Footer */
 #sourceline {
-font-family:'Tiempos';
+font-family:'Arial';
 font-size: 12px;
 margin-top: 0px;
 margin-left:10px;
@@ -332,7 +297,7 @@ font-weight:700;
 .footer{
 border-top:2px solid black;
 color: black;
-font-family:'Tiempos';
+font-family:'Arial';
 font-size: 10px;
 margin:0 10px;
 text-align:right;
