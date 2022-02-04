@@ -28,7 +28,7 @@ var x = d3.scale.linear()
   .domain( [0, 100] )
   .range( [margin.left, width + margin.right ] );
 
-d3.csv("https://gist.githubusercontent.com/lauraantunez024/8d22fccdb23c8f8fb1fcfb5ad9ec654a/raw/8350ddf30ada2f12e4573ccbf4cebf4abe043476/data.csv", function(error, data){
+d3.csv("data.csv", function(error, data){
 
 // Map the basic node data to d3-friendly format.
 var nodes = data.map(function(node, index) {
